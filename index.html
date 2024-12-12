@@ -260,20 +260,22 @@
         }
 
         .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--popup-bg);
-            border: 3px solid var(--popup-border);
-            padding: clamp(15px, 4vw, 20px);
-            border-radius: 10px;
-            box-shadow: 5px 5px 0px var(--popup-shadow);
-            width: min(90vw, 300px);
-            text-align: center;
-            animation: popupAnimation 0.5s ease-out forwards;
-            font-family: 'Gynko', cursive;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the popup */
+    background: var(--popup-bg);
+    border: 3px solid var(--popup-border);
+    padding: clamp(15px, 4vw, 20px);
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px var(--popup-shadow);
+    width: min(90vw, 300px);
+    text-align: center;
+    animation: popupAnimation 0.5s ease-out forwards;
+    font-family: 'Gynko', cursive;
+}
+
         }
 
         .popup h2 {
