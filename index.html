@@ -262,9 +262,9 @@
         .popup {
             display: none;
             position: fixed;
-            top: 40%;
-            left: 41%;
-            transform: translate(-40%, -41%);
+            top: 40%; /* Center vertically */
+            left: 41%; /* Center horizontally */
+            transform: translate(-50%, -40%); /* Adjust to center */
             background: var(--popup-bg);
             border: 3px solid var(--popup-border);
             padding: clamp(15px, 4vw, 20px);
@@ -277,7 +277,7 @@
         }
 
         .popup h2 {
-            color: #fff;
+            color: #ffffff; /* Contrasting color */
             font-size: 1.5rem;
             text-shadow: 2px 2px 0 #000;
         }
@@ -285,6 +285,7 @@
         .popup p {
             margin: 0;
             font-size: clamp(1rem, 3vw, 1.2rem);
+            color: #ffffff; /* Contrasting color */
         }
 
         .thumbs-up-btn {
@@ -389,7 +390,7 @@
         <!-- Header -->
         <div class="vcard-header">
             <h1>Metaphor <span class="made">Made</span></h1>
-            <p>Made to Craft Metaphors into Masterpieces.!</p>
+            <p>Made to Craft Metaphors into Masterpieces!</p>
         </div>
 
         <!-- Content -->
@@ -436,8 +437,8 @@
 
     <!-- Popup Message -->
     <div class="popup" id="popupMessage">
-        <h2>Alert!</h2>
-        <p>You clicked! Let's swing into action with Metaphor Made!</p>
+        <h2>Game on!</h2>
+        <p>Dream it, create it—Metaphor Made, let's elevate it!</p>
         <button class="thumbs-up-btn" id="thumbsUpBtn">
             <span class="thumbs-up-text">Let's work together!</span>
             👍
