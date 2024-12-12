@@ -260,23 +260,22 @@
         }
 
         .popup {
-            display: none;
-            position: fixed;
-            top: 40%; 
-            left: 41%; 
-            transform:  
-            top: 10%;
-            left: 11%; 
-            background: var(--popup-bg);
-            border: 3px solid var(--popup-border);
-            padding: clamp(15px, 4vw, 20px);
-            border-radius: 10px;
-            box-shadow: 5px 5px 0px var(--popup-shadow);
-            width: min(90vw, 300px);
-            text-align: center;
-            animation: popupAnimation 0.5s ease-out forwards;
-            font-family: 'Gynko', cursive;
-        }
+    display: none;
+    position: fixed;
+    top: 45%; /* Center vertically */
+    left: 12%; /* Center horizontally */
+    transform: translate(-30%, -30%); /* Adjust to center */
+    background: var(--popup-bg);
+    border: 3px solid var(--popup-border);
+    padding: clamp(15px, 4vw, 20px);
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px var(--popup-shadow);
+    width: min(90vw, 300px);
+    text-align: center;
+    animation: popupAnimation 0.5s ease-out forwards;
+    font-family: 'Gynko', cursive;
+}
+
 
         .popup h2 {
             color: #ffffff; /* Contrasting color */
@@ -463,9 +462,9 @@
         });
 
         document.getElementById("locationBtn").addEventListener("click", function() {
-            document.getElementById("popupMessage").style.display = "block";
-        });
-
+    const popup = document.getElementById("popupMessage");
+    popup.style.display = "block"; // Show the popup
+});
         document.getElementById("thumbsUpBtn").addEventListener("click", function() {
             const thumbsUpBtn = document.getElementById("thumbsUpBtn");
             const thumbsUpText = document.querySelector(".thumbs-up-text");
