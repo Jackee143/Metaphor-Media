@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Metaphor Made vCard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gynko&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* General Styles */
         :root {
             --logo-size: 75px;
             --card-width: min(400px, 90vw);
+            --popup-bg: #ff6f61; /* Vibrant background for popup */
+            --popup-border: #000; /* Border color */
+            --popup-shadow: rgba(0, 0, 0, 0.5); /* Shadow color */
         }
 
         @keyframes spinBackground {
@@ -33,38 +37,55 @@
             100% { transform: translateY(0); }
         }
 
-        @keyframes popupAnimation {
-            0% { opacity: 0; transform: translate(-50%, -30%); }
-            50% { opacity: 1; transform: translate(-50%, -10%); }
-            100% { opacity: 1; transform: translate(-50%, -50%); }
-        }
-
-        @keyframes thumbsUpExpand {
-            0% { width: 50px; }
-            50% { width: 150px; }
-            100% { width: 200px; }
-        }
-
-        @keyframes thumbsUpTextFadeIn {
-            0% { opacity: 0; transform: translateX(-20px); }
-            100% { opacity: 1; transform: translateX(0); }
+        @keyframes shine {
+            0% { left: -100%; }
+            50% { left: 100%; }
+            100% { left: 100%; }
         }
 
         @keyframes logoAnimation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(1); }
         }
 
-        @keyframes panelAnimation {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
         }
 
-        @keyframes buttonHover {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        @keyframes blink {
+            0% { border-color: transparent; }
+            50% { border-color: transparent; }
+            100% { border-color: black; }
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
             100% { transform: scale(1); }
+        }
+
+        @keyframes thumbsUpExpand {
+            0% { width: 50px; padding: 10px 15px; }
+            100% { width: 200px; padding: 10px 30px; }
+        }
+
+        @keyframes thumbsUpTextFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes popupAnimation {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Floating 3D Objects */
+        @keyframes float3D {
+            0% { transform: translateY(0) rotateY(0); }
+            50% { transform: translateY(-20px) rotateY(15deg); }
+            100% { transform: translateY(0) rotateY(0); }
         }
 
         * {
@@ -74,7 +95,7 @@
         }
 
         body {
-            font-family: 'Comic Neue', cursive, sans-serif; /* Keep Comic Neue for body */
+            font-family: 'Comic Neue', cursive, sans-serif;
             margin: 0;
             padding: 1rem;
             min-height: 100vh;
@@ -92,7 +113,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/paper.png'); /* Comic texture */
+            background-image: linear-gradient(135deg, #f0f0f0 25%, transparent 25%, transparent 50%, #f0f0f0 50%, #f0f0f0 75%, transparent 75%, transparent);
+            background-size: 5px 5px; /* Further reduced size */
             z-index: -1;
             animation: spinBackground 30s linear infinite;
         }
@@ -108,9 +130,9 @@
             flex-direction: column;
             text-align: center;
             animation: floatAnimation 3s ease-in-out infinite;
+            position: relative; /* For 3D objects positioning */
         }
 
-        /* Modified Logo Styles */
         .vcard-logo {
             width: var(--logo-size);
             height: var(--logo-size);
@@ -120,7 +142,7 @@
             overflow: hidden;
             border: 3px solid #000;
             box-shadow: 3px 3px 0px #000;
-            animation: logoAnimation 2s ease-in-out infinite; /* Logo animation */
+            animation: logoAnimation 0.8s ease forwards;
         }
 
         .vcard-logo img {
@@ -137,18 +159,20 @@
             color: #fff;
             padding: clamp(10px, 3vw, 20px);
             border-bottom: 5px solid #000;
-            animation: slideIn 0.5s ease forwards; /* Header slide-in animation */
+            animation: slideIn 0.5s ease forwards;
         }
 
         .vcard-header h1 {
-            margin: 10px 0 0;
-            font-size: clamp(1.5rem, 5vw, 2.2rem);
-            font-family: 'Shrikhand', cursive; /* Updated font to Shrikhand */
-            text-shadow: 
-                -1px -1px 0 #000,  
-                1px -1px 0 #000,
-                -1px 1px 0 #000,
-                1px 1px 0 #000; /* Black stroke effect */
+            white-space: nowrap; /* Prevents text wrapping */
+            border-right: 2px solid black; /* Cursor effect */
+            animation: typewriter 2s steps(30, end) forwards, blink 0.75s step-end infinite; /* Typewriter effect */
+        }
+
+        .vcard-header h1.done {
+            animation: scaleIn 0.5s ease forwards; /* Add scaling effect after typing */
+            border-right: none; /* Stops the blink effect after typing */
+            opacity: 1; /* Ensure it stays visible */
+            transform: scale(1); /* Ensure it stays scaled */
         }
 
         .vcard-header p {
@@ -162,15 +186,29 @@
             display: flex;
             flex-direction: column;
             gap: clamp(10px, 3vw, 15px);
+            position: relative; /* For 3D objects positioning */
         }
 
         .comic-panel {
+            position: relative;
+            overflow: hidden;
             background: #fdfd96;
             border: 3px solid #000;
             padding: clamp(8px, 2vw, 10px);
             border-radius: 10px;
-            animation: bounceAnimation 0.5s ease forwards; /* Bounce animation */
-            opacity: 0; /* Start hidden for animation */
+            animation: bounceAnimation 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .comic-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+            animation: shine 2s infinite;
         }
 
         .comic-panel:nth-child(1) { animation-delay: 0.2s; }
@@ -199,9 +237,8 @@
         }
 
         .social-links a:hover {
-            animation: buttonHover 0.3s forwards; /* Button hover animation */
-            box-shadow: 4px 4px 0px #000; /* Enhanced shadow on hover */
-            background: #ffd700; /* Change background color on hover */
+            box-shadow: 4px 4px 0px #000;
+            background: #ffd700;
         }
 
         .location-button {
@@ -218,9 +255,8 @@
         }
 
         .location-button:hover {
-            animation: buttonHover 0.3s forwards; /* Button hover animation */
-            box-shadow: 4px 4px 0px #000; /* Enhanced shadow on hover */
-            background: #ffd700; /* Change background color on hover */
+            box-shadow: 4px 4px 0px #000;
+            background: #ffd700;
         }
 
         .popup {
@@ -229,14 +265,21 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #fdfd96;
-            border: 3px solid #000;
+            background: var(--popup-bg);
+            border: 3px solid var(--popup-border);
             padding: clamp(15px, 4vw, 20px);
             border-radius: 10px;
-            box-shadow: 5px 5px 0px #000;
+            box-shadow: 5px 5px 0px var(--popup-shadow);
             width: min(90vw, 300px);
             text-align: center;
-            animation: popupAnimation 0.5s ease-out forwards; /* Enhanced popup animation */
+            animation: popupAnimation 0.5s ease-out forwards;
+            font-family: 'Gynko', cursive;
+        }
+
+        .popup h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 0 #000;
         }
 
         .popup p {
@@ -246,8 +289,8 @@
 
         .thumbs-up-btn {
             position: relative;
-            overflow: hidden; /* Hide overflow for animation */
-            width: 50px; /* Initial width */
+            overflow: hidden;
+            width: 50px;
             padding: 10px 15px;
             border-radius: 5px;
             border: 2px solid #000;
@@ -259,14 +302,58 @@
         }
 
         .thumbs-up-btn.expanded {
-            animation: thumbsUpExpand 0.5s forwards; /* Smooth width expansion */
+            animation: thumbsUpExpand 0.5s forwards;
         }
 
         .thumbs-up-text {
-            display: none; /* Initially hidden */
-            margin-left: 10px; /* Space between text and thumbs-up */
-            opacity: 0; /* Start hidden */
-            animation: thumbsUpTextFadeIn 0.5s forwards; /* Fade-in effect */
+            display: none;
+            margin-left: 10px;
+            opacity: 0;
+            animation: thumbsUpTextFadeIn 0.5s forwards;
+        }
+
+        /* 3D Objects */
+        .floating-objects {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* Prevents interference with hover actions */
+        }
+
+        .object {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            animation: float3D 3s ease-in-out infinite;
+        }
+
+        .object1 {
+            background: url('photography-icon.png') no-repeat center center;
+            background-size: contain;
+            top: -70px;
+            left: -70px;
+        }
+
+        .object2 {
+            background: url('graphic-design-icon.png') no-repeat center center;
+            background-size: contain;
+            top: -50px;
+            right: -70px;
+        }
+
+        .object3 {
+            background: url('3d-vfx-icon.png') no-repeat center center;
+            background-size: contain;
+            bottom: -70px;
+            left: -70px;
+        }
+
+        .object4 {
+            background: url('website-icon.png') no-repeat center center;
+            background-size: contain;
+            bottom: -50px;
+            right: -70px;
         }
 
         @media (max-width: 768px) {
@@ -301,7 +388,7 @@
 
         <!-- Header -->
         <div class="vcard-header">
-            <h1>Metaphor Made</h1>
+            <h1>Metaphor <span class="made">Made</span></h1>
             <p>Your Universe of Creative Made Work!</p>
         </div>
 
@@ -337,11 +424,20 @@
                 <a href="https://www.youtube.com" target="_blank">YouTube</a>
             </div>
         </div>
+
+        <!-- Floating 3D Objects -->
+        <div class="floating-objects">
+            <div class="object object1"></div>
+            <div class="object object2"></div>
+            <div class="object object3"></div>
+            <div class="object object4"></div>
+        </div>
     </div>
 
     <!-- Popup Message -->
     <div class="popup" id="popupMessage">
-        <p>You clicked! So that's how easy it is to work with Metaphor Made!</p>
+        <h2>Spider-Verse Alert!</h2>
+        <p>You clicked! Let's swing into action with Metaphor Made!</p>
         <button class="thumbs-up-btn" id="thumbsUpBtn">
             <span class="thumbs-up-text">Let's work together!</span>
             👍
@@ -352,9 +448,15 @@
         document.addEventListener("DOMContentLoaded", function() {
             const panels = document.querySelectorAll(".comic-panel");
             panels.forEach((panel, index) => {
-                panel.style.animationDelay = `${index * 0.2}s`; // Stagger the animation
-                panel.style.opacity = 1; // Set opacity to 1 to trigger animation
+                panel.style.animationDelay = `${index * 0.2}s`;
+                panel.style.opacity = 1;
             });
+
+            // Trigger the typewriter effect after the logo animation
+            const headerText = document.querySelector(".vcard-header h1");
+            setTimeout(() => {
+                headerText.classList.add("done");
+            }, 2000); // Matches the duration of the typewriter animation
         });
 
         document.getElementById("locationBtn").addEventListener("click", function() {
@@ -366,19 +468,16 @@
             const thumbsUpText = document.querySelector(".thumbs-up-text");
             const popupMessage = document.getElementById("popupMessage");
 
-            // Check if the button is already expanded
             if (thumbsUpBtn.classList.contains("expanded")) {
-                // Hide the popup when button is clicked again
                 popupMessage.style.display = "none";
-                thumbsUpText.style.opacity = 0; // Reset text opacity
-                thumbsUpBtn.classList.remove("expanded"); // Reset button state
+                thumbsUpText.style.opacity = 0;
+                thumbsUpBtn.classList.remove("expanded");
             } else {
-                // Expand the button and show the text
                 thumbsUpBtn.classList.add("expanded");
-                thumbsUpText.style.display = "inline"; // Show the text
+                thumbsUpText.style.display = "inline";
                 setTimeout(() => {
-                    thumbsUpText.style.opacity = 1; // Fade in the text after expansion
-                }, 300); // Delay for smooth transition
+                    thumbsUpText.style.opacity = 1;
+                }, 300);
             }
         });
     </script>
